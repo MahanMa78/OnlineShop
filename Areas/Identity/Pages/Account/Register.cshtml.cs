@@ -30,6 +30,16 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        public IActionResult OnGet()
+        {
+            return RedirectToPage("/Index");
+        }
+
+        public IActionResult OnPost()
+        {
+            return RedirectToPage("/Index");
+        }
+
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
