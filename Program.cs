@@ -106,11 +106,20 @@ if (builder.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 app.UseAuthorization();
+
+// app.UseEndpoints(endpoints =>
+// {
+//    endpoints.MapControllerRoute(
+//        name: "default",
+//        pattern: "{Controller=home}"
+//        );
+// });
 
 app.MapRazorPages();
 
