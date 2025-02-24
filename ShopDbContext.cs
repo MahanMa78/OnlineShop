@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 namespace OnlineShop;
 
 
-public class ShopDbContext : IdentityDbContext
+public class ShopDbContext : IdentityDbContext<User>
 {
     public ShopDbContext(DbContextOptions<ShopDbContext> options)
         : base(options)
@@ -22,11 +22,9 @@ public class ShopDbContext : IdentityDbContext
     }
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder Builder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(x => new { x.LoginProvider, x.ProviderKey });
-        modelBuilder.Entity<IdentityUserRole<string>>().HasKey(x => new { x.UserId, x.RoleId });
-        modelBuilder.Entity<IdentityUserToken<string>>().HasKey(x => new { x.UserId, x.LoginProvider, x.Name });
+        base.OnModelCreating(Builder);
+        
     }
 }
