@@ -81,8 +81,13 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<ShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<ShopDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>(opt =>
+{
+    opt.Password.RequiredLength = 10;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireUppercase = false;
+})
+.AddEntityFrameworkStores<ShopDbContext>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
