@@ -86,6 +86,8 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
