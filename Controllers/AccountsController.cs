@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using OnlineShop.DTOs;
 using OnlineShop.Models;
 
@@ -18,6 +18,7 @@ namespace OnlineShop.Controllers
         {
             _mapper = mapper;
             _userManger = userManager;
+            
         }
 
         [HttpPost("register")]
@@ -49,7 +50,8 @@ namespace OnlineShop.Controllers
                 return Unauthorized(new AuthenticationResponseDTO { ErrorMessage = "Invalid Authentication" });
             }
             //return Ok(new AuthenticationResponseDTO { Token = "This is a token" });
-            return Ok(new AuthenticationResponseDTO { Status = $"Welcome {user.Email}" });
+            //return Ok(new AuthenticationResponseDTO { Status = $"Welcome {user.Email}" });
+            return Ok($"Welcome {user.Email}");
         }
         //[HttpPost("login")]
         //public async Task<IActionResult> Login([FromBody] UserForAuthenticationDTO userForAuthentication)
@@ -67,5 +69,12 @@ namespace OnlineShop.Controllers
         //    }
         //    return StatusCode(201);
         //}    
+
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return Ok();
+        }
     }
 }
