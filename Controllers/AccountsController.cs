@@ -53,23 +53,7 @@ namespace OnlineShop.Controllers
             //return Ok(new AuthenticationResponseDTO { Status = $"Welcome {user.Email}" });
             return Ok($"Welcome {user.Email}");
         }
-        //[HttpPost("login")]
-        //public async Task<IActionResult> Login([FromBody] UserForAuthenticationDTO userForAuthentication)
-        //{
-        //    if (userForAuthentication is null)
-        //        return BadRequest();
-
-        //    var user = _mapper.Map<User>(userForAuthentication);
-        //    var result = await _userManger.CreateAsync(user, userForAuthentication.Password);
-
-        //    if (!result.Succeeded)
-        //    {
-        //        var errors = result.Errors.Select(e => e.Description);
-        //        return BadRequest(new AuthenticationResponseDTO { Errors = errors });
-        //    }
-        //    return StatusCode(201);
-        //}    
-
+       
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
