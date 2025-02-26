@@ -34,7 +34,10 @@ public class ProductController : ControllerBase
            p.Price,
            p.IsActive,
            p.DataTimeCreated,
-           
+           p.CurrentCategoryId,
+
+           CategoryTitle = p.Category.Title
+
        })
        .ToListAsync();
 
@@ -55,6 +58,8 @@ public class ProductController : ControllerBase
                 p.DataTimeCreated,
                 p.IsActive,
                 p.Price,
+
+                Category = p.Category.Title
                 
             })
                 .FirstOrDefaultAsync();
@@ -71,6 +76,9 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add(ProductDTO dto)
     {
+        var category = await _context.Categories.FindAsync(dto.CurrentCategoryId);
+        if (category == null)
+            return NotFound("Category not found");
 
         Product product = new Product
         {
@@ -78,7 +86,8 @@ public class ProductController : ControllerBase
             Quantity = dto.Quantity,
             DataTimeCreated = dto.DataTimeCreated,
             IsActive = dto.IsActive,
-            Price = dto.Price
+            Price = dto.Price,
+            CurrentCategoryId = dto.CurrentCategoryId, 
 
         };
         _context.Products.Add(product);
@@ -92,8 +101,9 @@ public class ProductController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, ProductDTO dto)
     {
+        var category = await _context.Categories.FindAsync(dto.CurrentCategoryId);
         var exitingProduct = await _context.Products.FindAsync(id);
-        if (exitingProduct == null )
+        if (exitingProduct == null || category == null )
             return NotFound("Product not found");
 
         exitingProduct.Title = dto.Title;
