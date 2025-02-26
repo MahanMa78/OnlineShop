@@ -12,4 +12,5 @@ public class ProductDTO
     public double Price { get; set; }
     public bool IsActive { get; set; }
     public DateOnly DataTimeCreated { get; set; }
+    public int CurrentCategoryId { get; set; }
 }
