@@ -13,7 +13,8 @@ public class ShopDbContext : IdentityDbContext<User>
     {
     }
     public DbSet<Product> Products { get; set; }
-    
+    public DbSet<Category> Categories { get; set; }
+
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -22,9 +23,13 @@ public class ShopDbContext : IdentityDbContext<User>
     }
 
 
-    protected override void OnModelCreating(ModelBuilder Builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(Builder);
-        
+        //base.OnModelCreating(Builder);
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Products)
+            .WithOne(p => p.Category)
+            .HasForeignKey(p => p.CurrentCategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
