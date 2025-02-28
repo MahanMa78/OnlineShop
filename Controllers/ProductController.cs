@@ -128,4 +128,33 @@ public class ProductController : ControllerBase
         await _context.SaveChangesAsync();
         return NoContent();
     }
+
+    [HttpGet("GetFilteredProducts")]
+    public async Task<IActionResult> GetFilteredProducts([FromQuery] ProductFilterDTO filter)
+    {
+         var query = _context.Products.AsQueryable();
+
+    if (filter.MinPrice.HasValue)
+        query = query.Where(p => p.Price >= filter.MinPrice.Value);
+
+        if (filter.MaxPrice.HasValue)
+            query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+
+        
+
+    if (filter.CategoryId.HasValue)
+        query = query.Where(p => p.CurrentCategoryId == filter.CategoryId.Value);
+
+    if (!string.IsNullOrEmpty(filter.SortBy))
+    {
+        query = filter.SortBy.ToLower() switch
+        {
+            "price" => filter.IsDescending ? query.OrderByDescending(p => p.Price) : query.OrderBy(p => p.Price),
+            _ => query
+        };
+    }
+
+    var products = await query.ToListAsync();
+    return Ok(products);
+    }
 }

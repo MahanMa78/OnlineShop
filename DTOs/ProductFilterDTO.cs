@@ -7,12 +7,12 @@ namespace OnlineShop.DTOs
 {
     public class ProductFilterDTO
     {
-        public decimal? MinPrice {get;set;}
-        public decimal? MaxPrice { get; set; }
-        public double? MinRating {get;set;}
-        public double? MaxRating {get;set;}
+        public float? MinPrice {get;set;}
+        public float? MaxPrice { get; set; }
+        public float? MinRating {get;set;}
+        public float? MaxRating {get;set;}
         public int? CategoryId  {get;set;}
         public string? SortBy {get;set;}
-        public bool IsDecending {get;set;} = false;
+        public bool IsDescending {get;set;} = false;
     }
 }
