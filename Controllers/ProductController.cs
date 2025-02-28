@@ -137,8 +137,8 @@ public class ProductController : ControllerBase
     if (filter.MinPrice.HasValue)
         query = query.Where(p => p.Price >= filter.MinPrice.Value);
 
-        if (filter.MaxPrice.HasValue)
-            query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+    if (filter.MaxPrice.HasValue)
+        query = query.Where(p => p.Price <= filter.MaxPrice.Value);
 
         
 
@@ -153,6 +153,14 @@ public class ProductController : ControllerBase
             _ => query
         };
     }
+    
+
+    if(filter.MaxQuantity.HasValue)
+            query = query.Where(p => p.Quantity >= filter.MaxQuantity.Value);
+
+    if (filter.MinQuantity.HasValue)
+            query = query.Where(p => p.Quantity <= filter.MinQuantity.Value);   
+    
 
     var products = await query.ToListAsync();
     return Ok(products);

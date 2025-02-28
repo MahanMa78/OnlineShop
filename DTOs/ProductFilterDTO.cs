@@ -9,10 +9,12 @@ namespace OnlineShop.DTOs
     {
         public float? MinPrice {get;set;}
         public float? MaxPrice { get; set; }
-        public float? MinRating {get;set;}
-        public float? MaxRating {get;set;}
+        //public float? MinRating {get;set;}
+        //public float? MaxRating {get;set;}
         public int? CategoryId  {get;set;}
         public string? SortBy {get;set;}
         public bool IsDescending {get;set;} = false;
+        public int? MaxQuantity { get;set;}
+        public int? MinQuantity { get; set; }
     }
 }
