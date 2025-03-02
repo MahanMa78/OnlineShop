@@ -14,11 +14,10 @@ namespace OnlineShop.Controllers
         private readonly UserManager<User> _userManger;
         private readonly IMapper _mapper;
 
-        public AccountsController(UserManager<User> userManager , IMapper mapper)
+        public AccountsController(UserManager<User> userManager, IMapper mapper)
         {
             _mapper = mapper;
             _userManger = userManager;
-            
         }
 
         [HttpPost("register")]
@@ -39,16 +38,17 @@ namespace OnlineShop.Controllers
             }
             return StatusCode(201);
         }
-
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDTO userForAuthentication)
         {
             var user = await _userManger.FindByNameAsync(userForAuthentication.Email);
+            
             if (user == null || !await _userManger.CheckPasswordAsync(user, userForAuthentication.Password))
             {
                 return Unauthorized(new AuthenticationResponseDTO { ErrorMessage = "Invalid Authentication" });
             }
+
             //return Ok(new AuthenticationResponseDTO { Token = "This is a token" });
             //return Ok(new AuthenticationResponseDTO { Status = $"Welcome {user.Email}" });
             return Ok($"Welcome {user.Email}");
