@@ -17,55 +17,94 @@ public class CategoryController : ControllerBase
     private readonly ILogger<CategoryController> _logger;
     private readonly ShopDbContext _context;
 
-    public CategoryController(ILogger<CategoryController> logger , ShopDbContext context)
+    public CategoryController(ILogger<CategoryController> logger, ShopDbContext context)
     {
         _logger = logger;
         _context = context;
     }
 
+    //[HttpGet]
+    //public async Task<ActionResult<List<Category>>> GetAll()
+    //{
+    //    var categories = await _context.Categories
+    //        .Select(c => new CategoryDTO()
+    //        {
+    //            Id = c.CategoryId,
+    //            Description = c.Description,
+    //            Title = c.Title,
+    //            Products = c.Products.Select(p => new ProductDTO()
+    //            {
+    //                Title = p.Title,
+    //                Price =p.Price,
+    //                DataTimeCreated = p.DataTimeCreated,
+    //                IsActive = p.IsActive,
+    //                Quantity = p.Quantity,
+    //                CategoryId = c.CategoryId
+    //            }).ToList()
+
+    //        }).ToListAsync();
+
+    //    return Ok(categories);
+    //}
+
+
     [HttpGet]
-    public async Task<ActionResult<List<Category>>> GetAll()
+    public async Task<ActionResult<List<Category>>> GetAllCategory()
     {
         var categories = await _context.Categories
-            .Select(c => new
+            .Select(c => new CategoryDTO()
             {
-                c.CategoryId,
-                c.Title,
-                c.Description,
-                Products = c.Products.Select(p => new
-                {
-                    p.ProductId,
-                    p.Title,
-                    p.Quantity,
-                    p.Price,
-                    p.IsActive,
-                    p.DataTimeCreated
-                }).ToList()
+                Id = c.CategoryId,
+                Title = c.Title,
+                Description = c.Description
             }).ToListAsync();
+
         return Ok(categories);
     }
+
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Category>> Get(int id)
     {
+        //var categoryWithProducts = await _context.Categories.Where(c => c.CategoryId == id)
+        //    .Select(c => new
+        //    {
+        //        c.CategoryId,
+        //        c.Title,
+        //        c.Description,
+        //        Products = c.Products.Select(p => new
+        //        {
+        //            p.ProductId,
+        //            p.Title,
+        //            p.Quantity,
+        //            p.Price,
+        //            p.IsActive,
+        //            p.DataTimeCreated
+        //        }).ToList()
+        //    }).FirstOrDefaultAsync();
+
+        //   if(categoryWithProducts == null)
+        //    return NotFound();
+
         var categoryWithProducts = await _context.Categories.Where(c => c.CategoryId == id)
-            .Select(c => new
+            .Select(c => new CategoryDTO()
             {
-                c.CategoryId,
-                c.Title,
-                c.Description,
-                Products = c.Products.Select(p => new
+                Id = c.CategoryId,
+                Description = c.Description,
+                Title = c.Title,
+                Products = c.Products.Select(p => new ProductDTO()
                 {
-                    p.ProductId,
-                    p.Title,
-                    p.Quantity,
-                    p.Price,
-                    p.IsActive,
-                    p.DataTimeCreated
+                    Title = p.Title,
+                    Price = p.Price,
+                    DataTimeCreated = p.DataTimeCreated,
+                    IsActive = p.IsActive,
+                    Quantity = p.Quantity,
+                    CategoryId = c.CategoryId
+
                 }).ToList()
             }).FirstOrDefaultAsync();
 
-           if(categoryWithProducts == null)
+        if (categoryWithProducts == null)
             return NotFound();
 
         return Ok(categoryWithProducts);
@@ -73,7 +112,7 @@ public class CategoryController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult<Category>> Add(CategoryDTO dto)
+    public async Task<ActionResult<Category>> Add(CreateUpdateCategoryCommand dto)
     {
         Category cagtegory = new Category
         {
@@ -87,7 +126,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id , CategoryDTO dto)
+    public async Task<IActionResult> Update(int id, CreateUpdateCategoryCommand dto)
     {
         var exitingCategory = await _context.Categories.FindAsync(id);
         if (exitingCategory == null) return NotFound();
