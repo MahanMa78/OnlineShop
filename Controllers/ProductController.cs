@@ -76,7 +76,7 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add(ProductDTO dto)
     {
-        var category = await _context.Categories.FindAsync(dto.CurrentCategoryId);
+        var category = await _context.Categories.FindAsync(dto.CategoryId);
         if (category == null)
             return NotFound("Category not found");
 
@@ -87,7 +87,7 @@ public class ProductController : ControllerBase
             DataTimeCreated = dto.DataTimeCreated,
             IsActive = dto.IsActive,
             Price = dto.Price,
-            CurrentCategoryId = dto.CurrentCategoryId, 
+            CurrentCategoryId = dto.CategoryId, 
 
         };
         _context.Products.Add(product);
@@ -101,7 +101,7 @@ public class ProductController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, ProductDTO dto)
     {
-        var category = await _context.Categories.FindAsync(dto.CurrentCategoryId);
+        var category = await _context.Categories.FindAsync(dto.CategoryId);
         var exitingProduct = await _context.Products.FindAsync(id);
         if (exitingProduct == null || category == null )
             return NotFound("Product not found");

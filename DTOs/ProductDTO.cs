@@ -7,10 +7,10 @@ namespace OnlineShop.DTOs;
 
 public class ProductDTO
 {
-    public string Title { get; set; }
+    public string Title { get; set; } = default!;
     public int Quantity { get; set; }
-    public double Price { get; set; }
+    public decimal Price { get; set; }
     public bool IsActive { get; set; }
     public DateOnly DataTimeCreated { get; set; }
-    public int CurrentCategoryId { get; set; }
+    public int CategoryId { get; set; }
 }
