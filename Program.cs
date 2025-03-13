@@ -105,8 +105,9 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
-app.UseAuthorization();
+
 
 //app.MapRazorPages();
 
@@ -114,7 +115,7 @@ app.MapPost("/login", (LoginRequest request, TokenGenerator tokenGenerator) =>
 {
     return new
     {
-        access_token = tokenGenerator.GeneratToken(request.Email)
+        access_token = tokenGenerator.GenerateToken(request.Email)
     };
 });
 

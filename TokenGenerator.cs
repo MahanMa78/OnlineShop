@@ -7,7 +7,7 @@ namespace OnlineShop;
 
 public class TokenGenerator
 {
-    public string GeneratToken(string email)
+    public string GenerateToken(string email)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = "ForTheLoveOfGodStoreAndLoadThisSecurely"u8.ToArray();
