@@ -59,6 +59,21 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddSingleton<TokenGenerator>();
 
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(x =>
+    {
+        x.TokenValidationParameters = new TokenValidationParameters()
+        {
+            IssuerSigningKey = new SymmetricSecurityKey("ForTheLoveOfGodStoreAndLoadThisSecurely"u8.ToArray()),
+            ValidIssuer = "https://id.dometrain.com",
+            ValidAudience = "https://dometrain.com",
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ValidateIssuer =true,
+            ValidateAudience = true,
+        };
+    });
 
 var app = builder.Build();
 

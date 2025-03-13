@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Models;
 using OnlineShop.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace OnlineShop.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ProductController : ControllerBase
 {
     private readonly ShopDbContext _context;
