@@ -8,6 +8,7 @@ using OnlineShop.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +57,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddSingleton<TokenGenerator>();
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -90,6 +94,14 @@ app.UseAuthorization();
 app.UseAuthorization();
 
 //app.MapRazorPages();
+
+app.MapPost("/login", (LoginRequest request, TokenGenerator tokenGenerator) =>
+{
+    return new
+    {
+        access_token = tokenGenerator.GeneratToken(request.Email)
+    };
+});
 
 app.MapControllers();
 
